@@ -15,7 +15,7 @@
       "to": "#5cceff"
     }
   },
-  "openapi": "https://api.scholarai.io/openapi.yaml",
+  "openapi": "https://api.scholarai.io/apispec.json",
   "topbarLinks": [
     {
       "name": "Support",
@@ -41,12 +41,12 @@
     {
       "name": "Community",
       "icon": "discord",
-      "url": "https://mintlify.com/community"
+      "url": "https://discord.com/invite/3aWAkKtF"
     },
     {
       "name": "Blog",
       "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
+      "url": "https://scholarai.io/blog-home"
     }
   ],
   "navigation": [
@@ -85,8 +85,7 @@
     }
   ],
   "footerSocials": {
-    "x": "https://x.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://www.linkedin.com/company/mintsearch"
+    "x": "https://x.com/ScholarAI_",
+    "linkedin": "https://www.linkedin.com/company/scholar-ai"
   }
 }
