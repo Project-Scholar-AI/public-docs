@@ -15,7 +15,7 @@
       "to": "#5cceff"
     }
   },
-  "openapi": "https://api.scholarai.io/apispec.json",
+  "openapi": "http://localhost:8080/apispec.json",
   "topbarLinks": [
     {
       "name": "Support",
@@ -54,8 +54,7 @@
       "group": "Get Started",
       "pages": [
         "introduction",
-        "quickstart",
-        "development"
+        "make-a-gpt"
       ]
     },
     {
@@ -72,15 +71,13 @@
     {
       "group": "API Documentation",
       "pages": [
-        "api-reference/introduction"
+        "api/introduction"
       ]
     },
     {
       "group": "Endpoints",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        "api-reference/api/search-papers"
       ]
     }
   ],
