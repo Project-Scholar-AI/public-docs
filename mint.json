@@ -15,10 +15,11 @@
       "to": "#5cceff"
     }
   },
+  "openapi": "https://api.scholarai.io/openapi.yaml",
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "mailto:hi@mintlify.com"
+      "url": "mailto:support@scholarai.io"
     }
   ],
   "topbarCtaButton": {
@@ -39,7 +40,7 @@
     },
     {
       "name": "Community",
-      "icon": "slack",
+      "icon": "discord",
       "url": "https://mintlify.com/community"
     },
     {
@@ -75,7 +76,7 @@
       ]
     },
     {
-      "group": "Endpoint Examples",
+      "group": "Endpoints",
       "pages": [
         "api-reference/endpoint/get",
         "api-reference/endpoint/create",

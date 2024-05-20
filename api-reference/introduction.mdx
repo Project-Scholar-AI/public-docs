@@ -22,12 +22,8 @@ There are two ways to build API documentation: [OpenAPI](https://mintlify.com/do
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+All API Endpoints provided are authenticated using a ScholarAI API token. You can request a token from the following [link](https://app.scholarai.io/profile/api)
 
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
-```
+When hitting the ScholarAI endpoints, provide the API key as a header with the following format:
+
+`X-ScholarAI-API-Key: [your token]`
