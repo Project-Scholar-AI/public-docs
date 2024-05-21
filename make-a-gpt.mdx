@@ -3,3 +3,78 @@ title: Make A GPT
 description: 'Make your own implementation of ScholarAI to work with ChatGPT'
 ---
 
+## Use this guide if you...
+
+- Use ChatGPT as your interface
+- Want to keep all of the core functionality of ScholarAI while changing prompting to work with your process
+- Or have different endpoints you'd like to use alongside ScholarAI's endpoints
+
+## Setting up the GPT with no changes
+
+### Get an API Key
+
+Go to [the API key request page](https://app.scholarai.io/profile/api) and copy a generated key
+
+![copy_api_key.png](/images/copy_api_key.png)
+
+### Creating the GPT
+
+Go to [ChatGPT](https://chatgpt.com) and create a new GPT
+
+![view_gpt.png](/images/view_gpt.png)
+
+Click on the `Configure` tab on the left panel, then scroll down to "Create a New Action" and select the option.
+
+![create_action.png](/images/create_action.png)
+
+Click on the Gear icon next to the `Authentication` section
+
+![open_auth.png](/images/open_auth.png)
+
+For the `Authentication Type`, select `API Key`. Paste your copied API key into the field below.
+
+Then, under `Auth Type`, click `Custom` and type `X-ScholarAI-API-Key`. Hit Save!
+
+![fill_auth.png](/images/fill_auth.png)
+
+### Prompting
+
+Click `Import` then fill the value with `https://api.scholarai.io/openapi.yaml`
+
+![import_spec.png](/images/import_spec.png)
+
+![fill_spec.png](/images/fill_spec.png)
+
+Once imported, you should see the `Schema` field fill with a bunch of content.
+
+Click the `<` button to go back to the configure tab. Assign the GPT whatever name and description you'd like - these won't impact the prompting.
+
+For the instruction, we use the following prompt. We recommend copying and pasting this in, then refining it to suit your usage:
+
+```
+ScholarAI is designed to proficiently sift through extensive scientific databases, presenting research references by default to maintain a balance between breadth and detail. ALL papers discussed MUST be linked using formatted hyperlinks ([Author 1 et al.](URL)) using web browsing if one is not presented. Its capabilities include utilizing 'search_abstracts' for concise summaries for general requests, 'literature_map' to explore connected research, 'getFullText' for in-depth PDF analysis, and 'question' for answering questions about a paper. ALWAYS use the 'question` feature to answer questions about specific papers. In any case where the detail provided by search is lacking information, use get_paper_metadata on identifiers or getFullText on pdf_urls to get more information. Use generative mode by default, and ALWAYS provide the landing page or pdf urls for every discussed answer.
+
+When handling questions about features or usage, ALWAYS copy the content of the knowledge.md file directly.
+```
+
+Congrats! You should now be able to test your ScholarAI integration in the right panel.
+
+## Customization
+
+If you'd like to refine the prompting of the ScholarAI integration, the two main places to do that are
+
+- The instruction field, which guides high level behavior of the GPT like output format and ways it should string together multiple calls to our API
+- The imported schema, which tells the GPT what each part of our API represents.
+
+We do not recommend modifying the imported schema as we've written these to ensure the different endpoints know how to interweave their functionality.
+
+The instruction field can be manually written to from the interface, or you can use the `Create` tab to speak to ChatGPT and ask it to help you design the experience you'd like. In either case, the changes only take effect once you've saved.
+
+## Staying up-to-date
+
+We may frequently update the schema and features we have present. If you see a feature update from us,
+
+1. Click the name of your custom GPT in the top left corner
+2. Click `Edit GPT` to open the editor interface
+3. Under the `Configure` tab, click the action named `api.scholarai.io`
+4. Reimport the schema previously referenced

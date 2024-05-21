@@ -23,8 +23,8 @@
     }
   ],
   "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "name": "Manage Your Account",
+    "url": "https://app.scholarai.io/profile/plans"
   },
   "tabs": [
     {
@@ -58,20 +58,12 @@
       ]
     },
     {
-      "group": "Essentials",
-      "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
-      ]
-    },
-    {
       "group": "API Documentation",
       "pages": [
-        "api/introduction"
+        "api-reference/introduction",
+        "api-reference/features",
+        "api-reference/authentication",
+        "api-reference/prompting"
       ]
     },
     {

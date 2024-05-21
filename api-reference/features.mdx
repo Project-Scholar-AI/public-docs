@@ -1,0 +1,128 @@
+---
+title: 'Feature Set'
+description: 'Understand the feature set of ScholarAI and see how the different utilities connect'
+---
+
+Our product suite currently falls into one of three categories
+- Search
+- Document content extraction (including images)
+- Document management
+
+At the level of individual paper metadata we retrieve, our database is based on [Semantic Scholar's](https://www.semanticscholar.org/product/api) fantastic API. Any references to `SS_ID` inside of ScholarAI correspond to Semantic Scholar's `paperId` [field](https://api.semanticscholar.org/api-docs/#:~:text=a%20single%20paper%3A-,paperId,-%2D%20string%20%2D%20The%20primary)
+
+## Search
+
+In the category of search, we've created a vector database representing 100s of millions of papers that can be semantically searched by their titles and abstracts.
+
+These search results are also enhanced by
+
+- Open source access information
+- Ranking based on semantic similarity to the initial query, citation counts, or publication dates
+- Optional `generative_mode` for directly asking questions to the searched content.
+
+<Note>
+    The search returns a variable number of results depending on the cosine similarity of the found results. You may see anything between 0 to 25 results for a semantic search.
+</Note>
+
+### Suggested Endpoints
+
+<CardGroup cols={3}>
+  <Card
+    title="Search Papers"
+    icon="lock-open"
+    href="/api-reference/api/search-papers"
+  >
+    Semantically search papers
+  </Card>
+  <Card
+    title="Explore the literature map"
+    icon="lightbulb"
+    href="/api-reference/api/literature-map"
+  >
+    Find adjacent papers
+  </Card>
+  <Card
+    title="RAG over multiple papers"
+    icon="lightbulb"
+    href="/api-reference/api/batch-analyze-a-project"
+  >
+    RAG over a large batch of papers
+  </Card>
+</CardGroup>
+
+## Content Extraction
+
+Internally, we use a neural-network powered OCR system to read PDFs for which we've been provided a manually uploaded file or URL. With this OCR system, we can read PDFs even if they are older scans and isolate images.
+
+_Currently_, these extractions can still be blocked by publishers and are subject to copyright and open-access rules. For any file manually uploaded to our system, following expectations regarding copyright is the responsibility of the user.
+
+<Note>
+    The OCR system can effectively recognize text and related figures from a paper, but has a known weakness in accurately identifying figures by their label. We prune images from the returned data that seem poor quality.
+</Note>
+
+### Suggested Endpoints
+
+<CardGroup cols={3}>
+  <Card
+    title="Summarize a paper's full text"
+    icon="lock-open"
+    href="/api-reference/api/read-the-full-text-of-a-paper"
+  >
+    Extract paper sections, piece by piece
+  </Card>
+  <Card
+    title="Ask questions to a PDF"
+    icon="lightbulb"
+    href="/api-reference/api/literature-map"
+  >
+    RAG the best sections of a PDF related to a question
+  </Card>
+  <Card
+    title="RAG over multiple papers"
+    icon="lightbulb"
+    href="/api-reference/api/batch-analyze-a-project"
+  >
+    RAG over a large batch of papers
+  </Card>
+</CardGroup>
+
+## Document management
+
+Every user can create `projects`, which are storage spaces for related agentic work and documents. For the sake of this API, these projects can collect papers and then allow mass RAG query over the uploaded data.
+
+The projects are additionally
+- Privately encrypted for each user
+- Interfaced with document store features
+- Capable of batch analysis over all or select documents inside of the project
+
+Presently, projects only store PDFs.
+
+<CardGroup cols={3}>
+  <Card
+    title="Add a paper to a project"
+    icon="lock-open"
+    href="/api-reference/api/add-papers-to-project"
+  >
+    Extract paper sections, piece by piece
+  </Card>
+  <Card
+    title="Ask questions to a PDF"
+    icon="lightbulb"
+    href="/api-reference/api/literature-map"
+  >
+    RAG the best sections of a PDF related to a question
+  </Card>
+  <Card
+    title="RAG over multiple papers"
+    icon="lightbulb"
+    href="/api-reference/api/batch-analyze-a-project"
+  >
+    RAG over a large batch of papers
+  </Card>
+</CardGroup>
+
+## Putting it all together
+
+All systems here rely on one central ID: the `paper_id`. This is an abstracted way to identify a paper by DOI, it's URL, it's identifier inside of a project, etc. A `paper_id` will always begin with something akin to `DOI:...`, `PROJ:...`, `SSID:...`. Every endpoint, whether searching or scanning a project, uses a given `paper_id` to find relevant metadata which can then extend into other functions.
+
+For example, when you search for papers, we will try to create a `PDF_URL:...` paper_id for every paper returned by the query. A `PDF_URL:...` can then be fed into a project endpoint or RAG endpoint for further extraction.

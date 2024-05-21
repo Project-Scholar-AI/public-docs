@@ -1,29 +1,52 @@
 ---
 title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+description: 'Documentation for developers'
 ---
-
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
 
 ## Welcome
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+Understand how to use ScholarAI, where it is limited, and where we are developing.
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+## Suggested Starting Steps
 
-## Authentication
+<CardGroup cols={2}>
+  <Card
+    title="Access"
+    icon="lock-open"
+    href="/api-reference/authentication"
+  >
+    Get access, understand usage limits, and pricing
+  </Card>
+  <Card
+    title="Explore API Features"
+    icon="lightbulb"
+    href="/api-reference/features"
+  >
+    Understand the high-level features present in ScholarAI and how they connect
+  </Card>
+  <Card
+    title="Build with the API"
+    icon="screwdriver-wrench"
+    href="/api-reference/api/search-papers"
+  >
+    Read the endpoint specs
+  </Card>
+  <Card
+    title="Prompts for Agents"
+    icon="robot"
+    href="/api-reference/prompting"
+  >
+    Explore schemas and instructions we use for our own agents & GPTs
+  </Card>
+</CardGroup>
 
-All API Endpoints provided are authenticated using a ScholarAI API token. You can request a token from the following [link](https://app.scholarai.io/profile/api)
 
-When hitting the ScholarAI endpoints, provide the API key as a header with the following format:
+## Known Limitations
 
-`X-ScholarAI-API-Key: [your token]`
+As we have been developing for tooling that is being used by LLMs and agents, there a number of known spaces for improvement as it relates to developer usage and expecations of an API
+
+- Most critically, the speed of search is not fast for ad-hoc queries and UI rendering - our search endpoint will scan our vector database via hybrid search, a backfill for real-time open access data, and optionally pass in the discovered data into a LLM for synthesizing answers. In the context of our GPT and LLM tools, users have come to expect latency as a tradeoff for feature extensibility, but as a developer tool this is a prominent space for improvement.
+- Many endpoints have default behavior or overrides not captured in the specification for the sake of brevity for models with small context windows. We will continue to remove these hidden patterns and explore implementations that make endpoints easy to use both by LLMs and developers.
+- Our internal agent-based services and UI-interfacing CRUD endpoints are currently unexposed - the current documentation set is focused on enabling users to create their own GPTs or agents.
+
+We are open to all feedback as we work on making this system better every day!

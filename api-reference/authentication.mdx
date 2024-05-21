@@ -1,0 +1,22 @@
+---
+title: 'Access'
+description: 'Everything related to access and authentication'
+---
+
+## Authentication
+
+All API Endpoints provided are authenticated using a ScholarAI API Key. You can request an API Key from the following [link](https://app.scholarai.io/profile/api)
+
+When hitting the ScholarAI endpoints, provide the API key as a header with the following format:
+
+`X-ScholarAI-API-Key: [your token]`
+
+## Rate Limits
+
+While alpha testing, users are limited to 25 requests per minute. Depending on severity of traffic and our scaling, this is subject to change.
+
+## Pricing/Usage
+
+All of our monetization systems rely on the same structure - you gain `credits`, either through a subscription or one-time-payments, which act as proxies for our LLM-related costs. Some of our features don't use LLMs whatsoever, whereas our agentic systems burn through big model tokens. When hitting our current endpoints, you are generally going to be paying for the cost of ChatGPT3.5 or vision models as well an additional fixed margin we include for our services.
+
+These pricing structures are subject to change. You can manage and view your credit budget [here](https://app.scholarai.io/profile/plans)
