@@ -1,0 +1,536 @@
+{
+	"info": {
+		"title": "No title",
+		"version": "No version"
+	},
+	"servers": [
+		{
+			"url": "https://api.scholarai.io"
+		}
+	],
+	"tags": [
+		{
+			"name": "Api"
+		}
+	],
+	"paths": {
+		"/api/fulltext": {
+			"get": {
+				"operationId": "api_get_fulltext",
+				"parameters": [
+					{
+						"in": "query",
+						"name": "pdf_id",
+						"description": "id for PDF. Must begin with be one of `PDF_URL:some.url.com` or `PROJ:some_path`",
+						"schema": {
+							"type": "string"
+						},
+						"required": true
+					},
+					{
+						"in": "query",
+						"name": "chunk",
+						"description": "chunk number to retrieve, defaults to 1",
+						"schema": {
+							"type": "integer",
+							"default": 1
+						},
+						"required": false
+					}
+				],
+				"tags": [
+					"Api"
+				],
+				"summary": "Read the Full text of a paper",
+				"description": "Retrieves the full text of an article by its pdf_url. May use a cached entry or read from other data sources before trying PDF parsing.\n:param pdf_url: the url of the pdf\n:param chunk: the chunk number to retrieve\n:return: the chunk of the full text requested with the page number and total number of pages",
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PaperContentResponse"
+								}
+							}
+						},
+						"description": "OK"
+					}
+				}
+			}
+		},
+		"/api/question": {
+			"get": {
+				"operationId": "api_question",
+				"parameters": [
+					{
+						"in": "query",
+						"name": "question",
+						"description": "The user question. Must be in English.",
+						"schema": {
+							"type": "string"
+						},
+						"required": true
+					},
+					{
+						"in": "query",
+						"name": "pdf_id",
+						"description": "id for PDF. Must begin with be one of `PDF_URL:some.url.com` or `PROJ:some_path`",
+						"schema": {
+							"type": "string"
+						},
+						"required": true
+					}
+				],
+				"tags": [
+					"Api"
+				],
+				"summary": "Ask a question to a PDF",
+				"description": "Uses embedding model to find section of PDF most relevant for answering a question\n:param pdf_url: the url\n:param question: the question\n:return: the chunk most relevant to answering that question and its source",
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PaperContentResponse"
+								}
+							}
+						},
+						"description": "OK"
+					}
+				}
+			}
+		},
+		"/api/abstracts": {
+			"get": {
+				"operationId": "api_get_abstract",
+				"parameters": [
+					{
+						"in": "query",
+						"name": "keywords",
+						"description": "Keywords of inquiry which should appear in the article. Must be in English.",
+						"schema": {
+							"type": "string"
+						},
+						"required": true
+					},
+					{
+						"in": "query",
+						"name": "sort",
+						"description": "The sort order for results. Valid values are relevance, cited_by_count, publication_date. Defaults to relevance.",
+						"schema": {
+							"type": "string",
+							"default": "relevance"
+						},
+						"required": false
+					},
+					{
+						"in": "query",
+						"name": "query",
+						"description": "The user query",
+						"schema": {
+							"type": "string"
+						},
+						"required": true
+					},
+					{
+						"in": "query",
+						"name": "peer_reviewed_only",
+						"description": "Whether to only return peer-reviewed articles. Defaults to true, ChatGPT should cautiously suggest this value can be set to false",
+						"schema": {
+							"type": "boolean",
+							"default": true
+						},
+						"required": false
+					},
+					{
+						"in": "query",
+						"name": "start_year",
+						"description": "The first year, inclusive, to include in the search range. Excluding this value will include all years.",
+						"schema": {
+							"type": "integer"
+						},
+						"required": false
+					},
+					{
+						"in": "query",
+						"name": "end_year",
+						"description": "The last year, inclusive, to include in the search range. Excluding this value will include all years.",
+						"schema": {
+							"type": "integer"
+						},
+						"required": false
+					},
+					{
+						"in": "query",
+						"name": "offset",
+						"description": "The offset of the first result to return. Defaults to 0.",
+						"schema": {
+							"type": "integer",
+							"default": 0
+						},
+						"required": false
+					},
+					{
+						"in": "query",
+						"name": "generative_mode",
+						"description": "Boolean \"true\" or \"false\" to enable generative mode. If enabled, collate responses using markdown to render in-text citations to the source's url if available. Set this to true by default.",
+						"schema": {
+							"type": "boolean",
+							"default": true
+						},
+						"required": false
+					}
+				],
+				"tags": [
+					"Api"
+				],
+				"summary": "Search Papers",
+				"description": "Retrieves relevant abstracts and paper metadata by a search. Generates an answer using LLMs if generative_mode is set to true.",
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/PaperMetadataResponse"
+									}
+								}
+							}
+						},
+						"description": "OK"
+					}
+				}
+			}
+		},
+		"/api/save-citation": {
+			"get": {
+				"operationId": "api_save_citation",
+				"parameters": [
+					{
+						"in": "query",
+						"name": "doi",
+						"description": "Digital Object Identifier (DOI) of the article",
+						"schema": {
+							"type": "string"
+						},
+						"required": true
+					},
+					{
+						"in": "query",
+						"name": "zotero_user_id",
+						"description": "Zotero User ID",
+						"schema": {
+							"type": "string"
+						},
+						"required": true
+					},
+					{
+						"in": "query",
+						"name": "zotero_api_key",
+						"description": "Zotero API Key",
+						"schema": {
+							"type": "string"
+						},
+						"required": true
+					}
+				],
+				"tags": [
+					"Api"
+				],
+				"summary": "Save a Citation to Zotero",
+				"description": "Saves a citation to the user's citation manager",
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SaveCitationResponse"
+								}
+							}
+						},
+						"description": "OK"
+					}
+				}
+			}
+		},
+		"/api/add_to_project": {
+			"get": {
+				"operationId": "get_api_add_to_project",
+				"parameters": [
+					{
+						"in": "query",
+						"name": "project_id",
+						"description": "The project ID to which the items are being added. Default to 'gpt'",
+						"schema": {
+							"type": "string"
+						},
+						"required": false
+					},
+					{
+						"in": "query",
+						"name": "project_name",
+						"description": "The project name to which the items are being added. Alternative to project_id",
+						"schema": {
+							"type": "string"
+						},
+						"required": false
+					},
+					{
+						"in": "query",
+						"name": "paper_id",
+						"description": "Identifier of the paper to add, must be of the format <identifier_type>:<identifier_value>. Identifier type can be one of DOI, PMID, SS_ID, ARXIV, MAG, ACL, or PMCID.",
+						"schema": {
+							"type": "string"
+						},
+						"required": true
+					}
+				],
+				"tags": [
+					"Api"
+				],
+				"summary": "Add papers to project",
+				"description": "Accept a PDF url or multipart form-data containing a file, and add it to the user's project in the database. If no project is specified, add it to a project named \"GPT\"",
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/PaperMetadataResponse"
+									}
+								}
+							}
+						},
+						"description": "OK"
+					}
+				}
+			},
+			"post": {
+				"operationId": "post_api_add_to_project",
+				"parameters": [
+					{
+						"in": "query",
+						"name": "project_id",
+						"description": "The project ID to which the items are being added. Default to 'gpt'",
+						"schema": {
+							"type": "string"
+						},
+						"required": false
+					},
+					{
+						"in": "query",
+						"name": "project_name",
+						"description": "The project name to which the items are being added. Alternative to project_id",
+						"schema": {
+							"type": "string"
+						},
+						"required": false
+					},
+					{
+						"in": "query",
+						"name": "paper_id",
+						"description": "Identifier of the paper to add, must be of the format <identifier_type>:<identifier_value>. Identifier type can be one of DOI, PMID, SS_ID, ARXIV, MAG, ACL, or PMCID.",
+						"schema": {
+							"type": "string"
+						},
+						"required": true
+					}
+				],
+				"tags": [
+					"Api"
+				],
+				"summary": "Add papers to project",
+				"description": "Accept a PDF url or multipart form-data containing a file, and add it to the user's project in the database. If no project is specified, add it to a project named \"GPT\"",
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/PaperMetadataResponse"
+									}
+								}
+							}
+						},
+						"description": "OK"
+					}
+				}
+			}
+		},
+		"/api/create_project": {
+			"post": {
+				"operationId": "api_create_project",
+				"parameters": [
+					{
+						"in": "query",
+						"name": "project_name",
+						"description": "Desired name for the project",
+						"schema": {
+							"type": "string"
+						},
+						"required": true
+					}
+				],
+				"tags": [
+					"Api"
+				],
+				"summary": "Creates a project using query params",
+				"responses": {
+					"204": {
+						"description": "No Content"
+					}
+				}
+			}
+		},
+		"/api/analyze_project": {
+			"get": {
+				"operationId": "api_analyze_project",
+				"parameters": [
+					{
+						"in": "query",
+						"name": "project_name",
+						"description": "The name of the project to analyze.",
+						"schema": {
+							"type": "string"
+						},
+						"required": true
+					},
+					{
+						"in": "query",
+						"name": "analysis_mode",
+						"description": "The mode of analysis, options are 'comprehensive' and 'tabular'. Default to `tabular`.",
+						"schema": {
+							"type": "string"
+						},
+						"required": true
+					},
+					{
+						"in": "query",
+						"name": "question",
+						"description": "Questions to analyze within the project.",
+						"schema": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"required": true,
+						"explode": true,
+						"style": "form"
+					}
+				],
+				"tags": [
+					"Api"
+				],
+				"summary": "Batch Analyze a Project",
+				"description": "Accepts a project_name, and asks a question to every paper within. If no project is specified, uses a project named \"GPT\"",
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/AnalyzeProjectResponse"
+								}
+							}
+						},
+						"description": "OK"
+					}
+				}
+			}
+		}
+	},
+	"openapi": "3.0.3",
+	"components": {
+		"schemas": {
+			"PaperChunk": {
+				"type": "object",
+				"properties": {
+					"chunk_num": {
+						"type": "integer"
+					},
+					"chunk": {
+						"type": "string"
+					},
+					"img_mds": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					},
+					"pdf_url": {
+						"type": "string",
+						"format": "url"
+					}
+				}
+			},
+			"PaperContentResponse": {
+				"type": "object",
+				"properties": {
+					"chunks": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/PaperChunk"
+						}
+					},
+					"total_chunk_num": {
+						"type": "integer"
+					},
+					"hint": {
+						"type": "string"
+					}
+				}
+			},
+			"PaperMetadataResponse": {
+				"type": "object",
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"authors": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					},
+					"abstract": {
+						"type": "string"
+					},
+					"publication_date": {
+						"type": "string"
+					},
+					"cited_by_count": {
+						"type": "integer"
+					},
+					"url": {
+						"type": "string",
+						"format": "url"
+					}
+				}
+			},
+			"SaveCitationResponse": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string",
+						"description": "Confirmation of successful save or error message."
+					}
+				}
+			},
+			"AnalyzeProjectResponse": {
+				"type": "object",
+				"properties": {
+					"response": {
+						"type": "string",
+						"description": "A markdown string that must be repeated verbatim. NEVER summarize any part of the response, ALWAYS repeat it directly"
+					},
+					"tool_hint": {
+						"type": "string",
+						"description": "A hint you MUST follow with regards to this response"
+					}
+				}
+			}
+		}
+	}
+}

@@ -15,7 +15,7 @@
       "to": "#5cceff"
     }
   },
-  "openapi": "http://localhost:8080/apispec.json",
+  "openapi": "api-reference/openapi.json",
   "topbarLinks": [
     {
       "name": "Support",
@@ -34,9 +34,14 @@
   ],
   "anchors": [
     {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
+      "name": "Our GPT",
+      "icon": "vial",
+      "url": "https://chatgpt.com/g/g-L2HknCZTC-scholar-ai"
+    },
+    {
+      "name": "ScholarAI Copilot",
+      "icon": "flask",
+      "url": "https://app.scholarai.io"
     },
     {
       "name": "Community",
@@ -69,7 +74,14 @@
     {
       "group": "Endpoints",
       "pages": [
-        "api-reference/api/search-papers"
+        "api-reference/api/read-the-full-text-of-a-paper",
+        "api-reference/api/ask-a-question-to-a-pdf",
+        "api-reference/api/search-papers",
+        "api-reference/api/save-a-citation-to-zotero",
+        "api-reference/api/add-papers-to-project",
+        "api-reference/api/add-papers-to-project-1",
+        "api-reference/api/creates-a-project-using-query-params",
+        "api-reference/api/batch-analyze-a-project"
       ]
     }
   ],
