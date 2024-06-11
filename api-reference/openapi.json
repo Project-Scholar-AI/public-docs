@@ -14,6 +14,57 @@
 		}
 	],
 	"paths": {
+		"/api/chat/completions": {
+			"post": {
+				"operationId": "api_chat_completions",
+				"summary": "Use the ScholarAI Agent to generate chat completions",
+				"description": "Mimics the input and output to the OpenAI Chat Completion API: https://platform.openai.com/docs/api-reference/chat/create",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"model": {
+										"type": "string",
+										"description": "Model being used. Currently ignored and defaults to \"scholarai\" with GPT4-turbo"
+									},
+									"messages": {
+										"type": "array",
+										"items": {
+											"type": "object",
+											"properties": {
+												"role": {
+													"type": "string",
+													"description": "Role of the message. Must be \"user\""
+												},
+												"content": {
+													"type": "string",
+													"description": "Content of the message. Must be a string."
+												}
+											}
+										}
+									},
+									"stream": {
+										"type": "boolean",
+										"description": "Whether or not to stream the response. Streaming is recommended!"
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Api"
+				],
+				"responses": {
+					"200": {
+						"description": "Stream based on OpenAI Completions structure"
+					}
+				}
+			}
+		},
 		"/api/fulltext": {
 			"get": {
 				"operationId": "api_get_fulltext",

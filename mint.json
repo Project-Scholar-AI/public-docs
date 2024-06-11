@@ -74,6 +74,7 @@
     {
       "group": "Endpoints",
       "pages": [
+        "api-reference/api/chat-completions",
         "api-reference/api/read-the-full-text-of-a-paper",
         "api-reference/api/ask-a-question-to-a-pdf",
         "api-reference/api/search-papers",

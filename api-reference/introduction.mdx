@@ -47,6 +47,5 @@ As we have been developing for tooling that is being used by LLMs and agents, th
 
 - Most critically, the speed of search is not fast for ad-hoc queries and UI rendering - our search endpoint will scan our vector database via hybrid search, a backfill for real-time open access data, and optionally pass in the discovered data into a LLM for synthesizing answers. In the context of our GPT and LLM tools, users have come to expect latency as a tradeoff for feature extensibility, but as a developer tool this is a prominent space for improvement.
 - Many endpoints have default behavior or overrides not captured in the specification for the sake of brevity for models with small context windows. We will continue to remove these hidden patterns and explore implementations that make endpoints easy to use both by LLMs and developers.
-- Our internal agent-based services and UI-interfacing CRUD endpoints are currently unexposed - the current documentation set is focused on enabling users to create their own GPTs or agents.
 
 We are open to all feedback as we work on making this system better every day!
